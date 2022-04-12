@@ -19,10 +19,11 @@ let [total,setTotal] = useState(0);
 const [option,setOption]= useState("All");
 const [filtered,setFiltered]=useState([]);
 
-
+let additems = async()=>{
+  let additem = await axios.post(`http://localhost:${port}/users/additem`);
+}
 
 let getitems = async()=>{
-  let additem = await axios.post('http://localhost:4000/users/additem');
   let response = await axios.get('http://localhost:4000/users/getitems');
   // console.log(response.data);
   setProducts(response.data.items);
@@ -55,7 +56,8 @@ let handleOption=async (opt)=>{
 // console.log({option});
 
 useEffect(()=>{
-  getitems();
+  additems();
+  setTimeout(getitems,1800);
   getCart();
 },[])
 
