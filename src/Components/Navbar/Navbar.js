@@ -24,10 +24,8 @@ function Navbar({selected,handleOption}) {
                   autoComplete = {true} autoHighlight={true} disableClearable
                   loadingText="Loading..."
                   autoSelect={true} onChange={handleChange}
-                  // clearIcon={<SearchIcon fontSize="small"/>}
-                  // options={products.map((product,i)=>product.title)} 
                     options={['All','Mobiles','Watches']}
-                    renderInput={(params)=>(<TextField {...params} label="Search..." 
+                    renderInput={(params)=>(<TextField {...params}
                     
                      InputProps={{...params.InputProps,type:"search", 
                      startAdornment:<InputAdornment position="start">

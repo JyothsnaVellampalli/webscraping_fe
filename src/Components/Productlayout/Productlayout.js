@@ -17,22 +17,22 @@ function Productlayout({product, AddtoCart}) {
         <Typography variant='h7' gutterBottom>{product.title}</Typography>
         <div>
         {product.producttype == "Mobile"?(
-        <Typography variant='h7' className={classes.price}>{product.MRP}</Typography>)
+        <Typography variant='h7' className={classes.price}>&#8377;{product.MRP}</Typography>)
         : (<Typography variant='h7' className={classes.price}>&#8377;{product.MRP}</Typography>)}
         <br></br>
         {product.producttype == "Mobile"?(
-        <Typography variant='h7'>{product.OfferPrice}</Typography>)
+        <Typography variant='h7'>&#8377;{product.OfferPrice}</Typography>)
         : (<Typography variant='h7'>&#8377;{product.OfferPrice}</Typography>)}
         </div>
       </div>
       <Typography variant='body2' color='textSecondary'>Product Details : {product.producttype}</Typography>
       <Box display="flex" justifyContent="space-between">
           <Typography>Rating</Typography>
-          <Typography variant="subtitle1"> <Rating size="small" value={Number(product.rating)} readOnly/> </Typography>
+          <Typography variant="subtitle1"> <Rating size="small" value={product.rating ? Number(product.rating) : 3} readOnly/> </Typography>
         </Box>
      </CardContent>
      <CardActions className={classes.cardActions}>
-       <IconButton aria-label="Add to Cart"  onClick={()=>{AddtoCart(product.id,1)}}>
+       <IconButton aria-label="Add to Cart"  onClick={()=>{AddtoCart(product)}}>
          <AddShoppingCart/>
        </IconButton>
      </CardActions>

@@ -4,6 +4,7 @@ import Review from './Review';
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, ElementsConsumer} from "@stripe/react-stripe-js";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 
 const stripePromise = loadStripe("pk_test_51Kd6IhSJIOVQ4oboy8lok1cMAfD6xW031I3wggfBHPAD2qDsXxT2KWUFuq3ufNXkPb7FidD4J7yBypgDJudMda1U004ext1SXY");
@@ -11,6 +12,7 @@ const stripePromise = loadStripe("pk_test_51Kd6IhSJIOVQ4oboy8lok1cMAfD6xW031I3wg
 
 function PaymentForm({cart,total,prevstep,shippingData,setCart,setTotal}) {
   let [order,setOrder] = useState({});
+  const navigate = useNavigate();
   const handleSubmit = async (event, elements, stripe)=>{
     event.preventDefault();
 
@@ -35,13 +37,12 @@ function PaymentForm({cart,total,prevstep,shippingData,setCart,setTotal}) {
       }
       setOrder(orderData);
 
-      let response = axios.post("http://localhost:4000/users/orderdetails/",{orderData: orderData});
-      console.log(response);
-     
-      // if(response.data.statuscode === 200) {
-        let redirect = window.location.replace("http://localhost:3000/orderstatus");
-      // }
-      let refreshcart = axios.delete("http://localhost:4000/users/refreshcart");
+      let response = axios.post("/users/orderdetails/",{orderData: orderData});
+      if(response.data.statuscode === 200) {
+        // let redirect = window.location.replace("http://localhost:3000/orderstatus");
+        navigate('/orderstatus');
+      }
+      let refreshcart = axios.delete("/users/refreshcart");
       setCart([]);
       setTotal(0);
       

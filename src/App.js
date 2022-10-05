@@ -4,36 +4,27 @@ import { Products, Navbar, Cart, Checkout, Orderstatus} from './Components';
 import axios from 'axios';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 
-
-
 function App() {
-//   let products = [
-//     {id:1,name:"shoes",description:"Running Shoes",price:"500",img:"https://assets.ajio.com/medias/sys_master/root/hc4/h09/13018715553822/-288Wx360H-460342492-blue-MODEL.jpg"},
-//     {id:2,name:"shoes",description:"Running Shoes",price:"500",img:"https://assets.ajio.com/medias/sys_master/root/hc4/h09/13018715553822/-288Wx360H-460342492-blue-MODEL.jpg"},
-//     {id:3,name:"shoes",description:"Running Shoes",price:"500",img:"https://assets.ajio.com/medias/sys_master/root/hc4/h09/13018715553822/-288Wx360H-460342492-blue-MODEL.jpg"},
-//     {id:4,name:"shoes",description:"Running Shoes",price:"500",img:"https://assets.ajio.com/medias/sys_master/root/hc4/h09/13018715553822/-288Wx360H-460342492-blue-MODEL.jpg"}
-// ];
 let [products,setProducts] = useState([]);
 let [cart,setCart] = useState([]);
 let [total,setTotal] = useState(0);
 const [option,setOption]= useState("All");
 const [filtered,setFiltered]=useState([]);
 
-
-
 let getitems = async()=>{
-  let additem = await axios.post('http://localhost:4000/users/additem');
-  let response = await axios.get('http://localhost:4000/users/getitems');
-  // console.log(response.data);
+  let response = await axios.get('/users/getitems');
+  console.log(response.data.items);
   setProducts(response.data.items);
   setFiltered(response.data.items);
 }
 // console.log(products);
 
 let getCart = async()=>{
-  let response = await axios.get('http://localhost:4000/users/getcartitems');
+  let response = await axios.get('/users/getcartitems');
+  console.log(response.data);
   // console.log(response.data.cartitems);
   setCart(response.data.cartitems);
+  setTotal(response.data.totalPrice);
 }
 
 let handleOption=async (opt)=>{
@@ -55,60 +46,26 @@ let handleOption=async (opt)=>{
 // console.log({option});
 
 useEffect(()=>{
-  getitems();
+  setTimeout(getitems,1800);
   getCart();
 },[])
 
-let handleAddtoCart = async(id,quantity)=>{
-  let response = await axios.post('http://localhost:4000/users/addtocart',
-   {id,quantity});
+let handleAddtoCart = async(product)=>{
+  console.log(product);
+  let response = await axios.post('/users/addtocart',
+   {id: product.id, quantity: 1});
    getCart();
  }
 
  let handleCartquantity = async(id,quantity)=>{
-   let response = await axios.put('http://localhost:4000/users/updatequantity/',
+   let response = await axios.put('/users/updatequantity/',
    {id,quantity});
-  //  console.log(response.data);
-  setTotal(0);
    getCart();
   }
 
- let handleTotal = async()=>{
-  setTotal(0);
-  console.log({total});
-  let priceArr;
-  cart.map((item)=>{
-    //  console.log(item.OfferPrice)
-    console.log({total});
-    if(item.producttype == 'Mobile'){
-      let priceint = item.OfferPrice.slice(1, item.OfferPrice.length);
-    //  console.log({priceint});
-      priceArr= priceint.split(',');}
-      
-     else{
-       priceArr = item.OfferPrice.split(',');
-     }
-    //  console.log({priceArr});
-    let price = priceArr.join('');
-    // console.log(price);
-    //  console.log(priceint,priceArr,price);
-      total+=(Number(price)*Number(item.quantity));
-    })
-   console.log({total});
-   setTotal(total);
- };
-
- useEffect(()=>{
-  console.log('useEffect');
-  setTotal(0);
-  handleTotal();
-},[cart])
-
-
- let handleRemoveitem = async (id)=>{
-  console.log({id});
-    let response = await axios.delete('http://localhost:4000/users/deletefromcart/'+id);
-    console.log({id});
+ let handleRemoveitem = async (item)=>{
+    let response = await axios.delete('/users/deletefromcart/'+item.id);
+    console.log(item);
     console.log(response.data);
      getCart();
  }

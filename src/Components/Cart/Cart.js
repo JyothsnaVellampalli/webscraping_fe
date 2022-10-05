@@ -10,7 +10,7 @@ function Cart({cart, handleCartquantity,total,handleRemoveitem}) {
 
   const EmptyCart = ()=>(
     <Typography variant="h6">Your cart is Empty!
-    <Link to='/' className={classes.link} >Start adding some items.</Link>
+    <Link to='/' className={classes.link} >Click Here to add</Link>
     </Typography>
   );
 
@@ -30,7 +30,7 @@ function Cart({cart, handleCartquantity,total,handleRemoveitem}) {
                 <Typography>{item.quantity}</Typography>
                 <Button className={classes.btn} size="small" onClick={()=>{handleCartquantity(item.id,item.quantity+1)}}>+</Button>
               </div>
-              <Button variant="contained" color="secondary" onClick={()=>{handleRemoveitem(item.id)}}>Remove</Button>
+              <Button variant="contained" color="secondary" onClick={()=>{handleRemoveitem(item)}}>Remove</Button>
             </CardActions>
           </Card>
         </Grid>
@@ -39,7 +39,7 @@ function Cart({cart, handleCartquantity,total,handleRemoveitem}) {
     <div className={classes.cardDetails}>
       <div>
       
-      <Typography variant='h5'color="secondary">Total : {total}</Typography>
+      {/* <Typography variant='h5'color="secondary">Total : {total}</Typography> */}
       </div>
       <div>
       <Button component={Link} to='/checkout' className={classes.checkoutButton}  variant="contained" color="primary">Checkout</Button>
