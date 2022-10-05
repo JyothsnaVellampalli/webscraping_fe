@@ -21,15 +21,12 @@ let getitems = async()=>{
 
 let getCart = async()=>{
   let response = await axios.get('/users/getcartitems');
-  console.log(response.data);
-  // console.log(response.data.cartitems);
   setCart(response.data.cartitems);
   setTotal(response.data.totalPrice);
 }
 
 let handleOption=async (opt)=>{
   await setOption(opt);
-  // console.log(opt);
   if(opt=='All'){setFiltered(products)}
   else if(opt=='Watches'){
     let ress = products.filter((product)=>product.producttype=='Watch');
